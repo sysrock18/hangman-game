@@ -26,7 +26,11 @@
    ```sh
    git clone https://github.com/sysrock18/hangman-game.git
    ```
-2. Run main.py script
+2. Install dependencies
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. Run main.py script
    ```sh
    py main.py
    ```
