@@ -1,9 +1,11 @@
 {
     "en": {
         "guess": "Guess the Word!",
-        "enter_char": "Enter a char:",
+        "enter_char": "Enter a char and press enter:",
         "type_to_exit": "(type 0 to exit)",
         "the_word_was": "The word was: ",
-        "closed": "Closed unexpectedly"
+        "closed": "Closed unexpectedly",
+        "win": "YOU WIN! :D",
+        "lost": "You lost :("
     }
 }

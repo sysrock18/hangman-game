@@ -1,9 +1,11 @@
 {
     "es": {
         "guess": "Adivina la palabra!",
-        "enter_char": "Ingresa una letra:",
+        "enter_char": "Ingresa una letra y presiona enter:",
         "type_to_exit": "(Ingresa 0 para salir)",
         "the_word_was": "La palabra era: ",
-        "closed": "Cerrado inesperadamente"
+        "closed": "Cerrado inesperadamente",
+        "win": "GANASTE! :D",
+        "lost": "Perdiste :("
     }
 }

@@ -1,59 +1,67 @@
-import requests, platform, os
 import i18n
-import constants
-
-def get_random_word(language):
-    lang_param = constants.LANG_PARAM.format(language) if language in constants.OTHER_LANGUAGES else ""
-    url = constants.API + lang_param
-    response = requests.get(url)
-    word = response.json()
-    return word[0]
-
-def clear_screen():
-    if platform.system() == "Windows":
-        os.system("cls")
-    else:
-        os.system("clear")
+import stickman
+from unidecode import unidecode
+from services import get_random_word, print_guessed_chars
+from helpers import clear_screen, print_double_space
 
 def init_translations(language):
     i18n.set('file_format', 'json')
-    i18n.set('locale', language)
+    i18n.set('locale', language.lower())
     i18n.set('fallback', 'en')
     i18n.load_path.append('./i18n')
+
+def display_result(word, tries_left):
+    print_double_space()
+    if tries_left == 0:
+        print(i18n.t('foo.lost'))
+        print(i18n.t('foo.the_word_was') + word)
+    else:
+        print(i18n.t('foo.win'))
+
+def get_char_entered():
+    print_double_space()
+    print(i18n.t('foo.enter_char'))
+    print(i18n.t('foo.type_to_exit'))
+    return input("")
 
 def run():
     try:
         clear_screen()
         selected_language = input("Type your language (en: English, es: Español): ")
         init_translations(selected_language)
-        word = get_random_word(selected_language)
+
+        word = unidecode(get_random_word(selected_language))
+        word = word.replace(" ", "").lower()
+        EMPTY_SPACE = "__"
 
         typed_char = ""
-        guessed_chars = ['__'] * len(word)
-        wrong_tries = 0
-        is_game_started = False
+        guessed_chars = [EMPTY_SPACE] * len(word)
+        tries_left = len(stickman.get_stickmen()) - 1
 
         while typed_char != "0":
             clear_screen()
             print(i18n.t('foo.guess'), "\n")
+            lower_typed_char = typed_char.lower()
 
-            if typed_char not in word and is_game_started:
-                wrong_tries += 1
+            if lower_typed_char not in word and typed_char:
+                tries_left -= 1
+            else:
+                for count, value in enumerate(word):
+                    if lower_typed_char == value:
+                        guessed_chars[count] = value
+                
+            print_guessed_chars(guessed_chars)
 
-            for count, value in enumerate(word):
-                if typed_char.lower() == value.lower():
-                    guessed_chars[count] = value
+            print_double_space()
+            stickman.display(tries_left)
             
-            for char in guessed_chars:
-                print(char.upper(), end=' ')
-
-            print("\n\n")
-            print(i18n.t('foo.enter_char'))
-            print(i18n.t('foo.type_to_exit'))
-            typed_char = input("")
-            is_game_started = True
+            if EMPTY_SPACE in guessed_chars and tries_left > 0:
+                typed_char = get_char_entered()
+            else:
+                break
         
-        print(i18n.t('foo.the_word_was') + word)
+        if typed_char != "0":
+            display_result(word, tries_left)
 
     except:
         print(i18n.t('foo.closed'))
