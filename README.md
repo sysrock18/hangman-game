@@ -38,10 +38,14 @@
 
 
 <!-- Screenshot -->
-## Screenshot
+## Screenshots
 
-*To be added*
+### English
 
+![en_win](./screenshots/Screenshot_3_hangman.png) ![en_lost](./screenshots/Screenshot_2_hangman.png)
+
+### Spanish
+![es_win](./screenshots/Screenshot_4_hangman.png) ![es_lost](./screenshots/Screenshot_1_hangman.png)
 
 <!-- CONTACT -->
 ## Contact
